@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
-import { loginUserService, registerUserService } from "../services/authService";
-import { sendRegistrationMail } from "../services/authService";
+import { loginUserService, registerUserService } from "../services/authService.js";
+import { sendRegistrationMail } from "../services/authService.js";
 import { Request, Response } from "express";
 
 const registerUser = asyncHandler(async (req: Request, res: Response) => {

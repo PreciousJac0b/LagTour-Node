@@ -3,7 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
-import authRouter from './routes/authRoutes';
+import authRouter from './routes/authRoutes.js';
 
 dotenv.config();
 

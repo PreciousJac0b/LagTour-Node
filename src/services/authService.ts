@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from 'bcrypt';
-import User, {IUser} from "../models/User";
-import generateToken from "../utils/generateToken";
+import User, {IUser} from "../models/User.js";
+import generateToken from "../utils/generateToken.js";
 // import generateUser from "../utils/createUse";
 // import { validateLogin } from "../validators/userValidato";
 import _ from 'lodash';

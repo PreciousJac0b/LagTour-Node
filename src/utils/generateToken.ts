@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 // import "dotenv/config";
 
-type Role = "admin" | "seller" | "buyer" | "superadmin";
+type Role = "admin" | "student" | "lecturer" | "superadmin";
 
 interface TokenPayload {
   id: string;
@@ -9,7 +9,7 @@ interface TokenPayload {
 }
 
 const generateToken = (id: string, role?: Role): string => {
-  const userRole: Role = role ?? 'buyer'; // Come back to this
+  const userRole: Role = role ?? 'student'; // Come back to this
 
   const payload: TokenPayload = { id, role: userRole };
   return jwt.sign(payload, process.env.JWT_SECRET as string, {

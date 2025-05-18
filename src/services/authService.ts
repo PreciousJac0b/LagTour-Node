@@ -82,7 +82,7 @@ async function sendRegistrationMail(req: Request, res: Response, mailParam: Mail
 }
 
 async function generateUser(req: Request, res: Response, body: Partial<IUser>) {
-  const { username, email, password, role } = body;
+  const { username,firstname, lastname, email, password, role } = body;
   // if ((req.user.role === "admin" || "buyer" && role === "admin" || "superadmin") || role === "superadmin") {
   //   res.status(400);
   //   throw new Error("User not authorized to create users");
@@ -98,6 +98,8 @@ async function generateUser(req: Request, res: Response, body: Partial<IUser>) {
 
   user = new User({
     username,
+    firstname,
+    lastname,
     email,
     password: hashedPassword,
     role: role || 'buyer',

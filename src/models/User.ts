@@ -5,11 +5,14 @@ import bcrypt from 'bcrypt';
 
 export interface IUser extends Document {
   username: string;
+  firstname: string;
+  lastname: string;
   email: string;
-  role: 'admin' | 'seller' | 'buyer' | 'superadmin';
+  profession: string;
+  role: 'admin' | 'student' | 'lecturer' | 'superadmin';
   password: string;
-  currency?: string;
   verified: boolean;
+  createdAt?: Date;
   generateAuthToken: () => string;
   matchPassword: (enteredPassword: string) => Promise<boolean>;
 }
@@ -25,6 +28,22 @@ const userSchema = new Schema<IUser>(
       maxlength: 20,
       trim: true,
     },
+    firstname: {
+      type: String,
+      required: true,
+      unique: true,
+      minlength: 1,
+      maxlength: 20,
+      trim: true,
+    },
+    lastname: {
+      type: String,
+      required: true,
+      unique: true,
+      minlength: 1,
+      maxlength: 20,
+      trim: true,
+    },
     email: {
       type: String,
       required: true,
@@ -33,11 +52,14 @@ const userSchema = new Schema<IUser>(
       minlength: 5,
       maxlength: 255,
     },
+    profession: {
+      type: String,
+    },
     role: {
       type: String,
       required: true,
-      enum: ['admin', 'seller', 'buyer', 'superadmin'],
-      default: 'buyer',
+      enum: ['admin', 'student', 'lecturer', 'superadmin'],
+      default: 'student',
     },
     password: {
       type: String,
@@ -45,13 +67,13 @@ const userSchema = new Schema<IUser>(
       minlength: 6,
       maxlength: 255,
     },
-    currency: {
-      type: String,
-      minlength: 3,
-    },
     verified: {
       type: Boolean,
       default: false,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
     }
   },
 );

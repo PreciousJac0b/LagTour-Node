@@ -1,22 +1,37 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema, Types } from 'mongoose';
 import Joi from 'joi';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
+
+interface Experience {
+  company: string;
+  role: string;
+  startDate: Date;
+  endDate?: Date;
+}
+
 export interface IUser extends Document {
+  email: string;
+  password: string;
   username: string;
   firstname: string;
   lastname: string;
-  email: string;
-  profession: string;
-  role: 'admin' | 'student' | 'lecturer' | 'superadmin';
-  password: string;
-  verified: boolean;
-  createdAt?: Date;
-  generateAuthToken: () => string;
+  role: 'student' | 'lecturer' | 'admin' | 'superadmin';
+  bio: string;
+  skills: string[];
+  experience: Experience[];
+  resumeUrl?: string;
+  isVerified: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  faculty: Types.ObjectId;
+  department: Types.ObjectId;
+  posts: Types.ObjectId[];
+  followers: Types.ObjectId[];
+  following: Types.ObjectId[];
   matchPassword: (enteredPassword: string) => Promise<boolean>;
 }
-
 
 const userSchema = new Schema<IUser>(
   {
@@ -52,29 +67,81 @@ const userSchema = new Schema<IUser>(
       minlength: 5,
       maxlength: 255,
     },
-    profession: {
-      type: String,
-    },
     role: {
       type: String,
       required: true,
       enum: ['admin', 'student', 'lecturer', 'superadmin'],
       default: 'student',
     },
+    skills: {
+      type: [String],
+      default: [],
+    },
+    experience: [
+      {
+        company: {
+          type: String,
+          required: true
+        },
+        role: {
+          type: String,
+          required: true
+        },
+        startDate: {
+          type: Date,
+          required: true
+        },
+        endDate: {
+          type: Date
+        },
+      }
+    ],
     password: {
       type: String,
       required: true,
       minlength: 6,
       maxlength: 255,
     },
-    verified: {
-      type: Boolean,
-      default: false,
-    },
     createdAt: {
       type: Date,
       default: Date.now(),
-    }
+    },
+     resumeUrl: {
+      type: String,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    faculty: {
+      type: Schema.Types.ObjectId,
+      ref: 'Faculty',
+    },
+    department: {
+      type: Schema.Types.ObjectId,
+      ref: 'Department',
+    },
+    posts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Post',
+      },
+    ],
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Follow',
+      },
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Follow',
+      },
+    ],
+  },
+  {
+    timestamps: true,
   },
 );
 

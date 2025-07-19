@@ -1,5 +1,5 @@
 import express from 'express';
-import { loginUser, registerUser } from '../controllers/authController.js';
+import { AuthController } from '../controllers/authController.js';
 
 
 const router = express.Router();
@@ -119,7 +119,7 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.route("/register").post(registerUser)
+router.route("/register").post(AuthController.registerUser)
 
 /**
  * @swagger
@@ -148,6 +148,6 @@ router.route("/register").post(registerUser)
  *       500:
  *         description: Server error
  */
-router.route("/login").post(loginUser)
+router.route("/login").post(AuthController.loginUser)
 
 export default router;
